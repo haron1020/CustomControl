@@ -13,6 +13,7 @@
 		BA2E7AE91E6C4E69005CF26A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA2E7AE71E6C4E69005CF26A /* Main.storyboard */; };
 		BA2E7AEB1E6C4E69005CF26A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA2E7AEA1E6C4E69005CF26A /* Assets.xcassets */; };
 		BA2E7AEE1E6C4E69005CF26A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA2E7AEC1E6C4E69005CF26A /* LaunchScreen.storyboard */; };
+		BA2E7AFC1E6C64B8005CF26A /* AYNCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2E7AFB1E6C64B8005CF26A /* AYNCircleView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		BA2E7AEA1E6C4E69005CF26A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA2E7AED1E6C4E69005CF26A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA2E7AEF1E6C4E69005CF26A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA2E7AFA1E6C64B8005CF26A /* AYNCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNCircleView.h; sourceTree = "<group>"; };
+		BA2E7AFB1E6C64B8005CF26A /* AYNCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNCircleView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +118,8 @@
 		BA2E7AF91E6C4FD2005CF26A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BA2E7AFA1E6C64B8005CF26A /* AYNCircleView.h */,
+				BA2E7AFB1E6C64B8005CF26A /* AYNCircleView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -194,6 +199,7 @@
 				BA2E7AE61E6C4E69005CF26A /* AYNViewController.m in Sources */,
 				BA2E7AE31E6C4E69005CF26A /* AYNAppDelegate.m in Sources */,
 				BA2E7AE01E6C4E69005CF26A /* main.m in Sources */,
+				BA2E7AFC1E6C64B8005CF26A /* AYNCircleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

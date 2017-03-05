@@ -8,6 +8,25 @@
 
 #import "AYNViewController.h"
 
+#import "AYNCircleView.h"
+
+@interface AYNViewController ()
+
+@property (weak, nonatomic) IBOutlet AYNCircleView *circleView;
+
+@end
+
 @implementation AYNViewController
+
+#pragma mark - View Controller Lifecycle
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    UIView *contentView = [UIView new];
+    contentView.backgroundColor = [UIColor redColor];
+    
+    self.circleView.contentView = contentView;
+}
 
 @end

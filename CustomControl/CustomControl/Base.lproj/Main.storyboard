@@ -29,17 +29,26 @@
                                     <constraint firstAttribute="height" constant="200" id="Ky3-Dx-IMV"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0AG-Xf-cec">
+                                <rect key="frame" x="187" y="333.5" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="MQ1-3q-5jL" secondAttribute="bottom" id="2DF-jC-yR7"/>
                             <constraint firstItem="MQ1-3q-5jL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="50" id="5f0-6Y-Fp1"/>
+                            <constraint firstItem="0AG-Xf-cec" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Cyy-aY-EyN"/>
+                            <constraint firstItem="0AG-Xf-cec" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="FsA-k4-yN8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="MQ1-3q-5jL" secondAttribute="trailing" constant="50" id="R4f-zl-RlY"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="aA1-K7-KsV"/>
                     <connections>
                         <outlet property="circleView" destination="MQ1-3q-5jL" id="uvx-QW-6SM"/>
+                        <outlet property="valueLabel" destination="0AG-Xf-cec" id="y8k-Pw-y2j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

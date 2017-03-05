@@ -37,6 +37,8 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 
 @implementation AYNCircleView
 
+@dynamic value;
+
 #pragma mark - Initializers
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -88,6 +90,12 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     _circleLength = 2 * M_PI * circleRadius;
 }
 
+- (NSInteger)value {
+    NSInteger value = self.currentAngle > 0 ? floorf(self.currentAngle / self.angleStep) - self.numberOfLabels : floorf(self.currentAngle / self.angleStep);
+    
+    return labs(value) % self.numberOfLabels;
+}
+
 #pragma mark - Private
 
 - (void)commonInit {
@@ -136,8 +144,16 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 }
 
 - (void)rotateWithAngle:(CGFloat)angle {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(circleViewWillRotate:)]) {
+        [self.delegate circleViewWillRotate:self];
+    }
+    
     [UIView animateWithDuration:0.1 animations:^{
         self.circleView.transform = CGAffineTransformMakeRotation(angle);
+    } completion:^(BOOL finished) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(circleView:didRotateWithValue:)]) {
+            [self.delegate circleView:self didRotateWithValue:self.value];
+        }
     }];
 }
 

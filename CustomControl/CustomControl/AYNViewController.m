@@ -10,9 +10,10 @@
 
 #import "AYNCircleView.h"
 
-@interface AYNViewController ()
+@interface AYNViewController () <AYNCircleViewDelegate>
 
 @property (weak, nonatomic) IBOutlet AYNCircleView *circleView;
+@property (weak, nonatomic) IBOutlet UILabel *valueLabel;
 
 @end
 
@@ -28,6 +29,13 @@
     
     self.circleView.contentView = contentView;
     self.circleView.numberOfLabels = 12;
+    self.circleView.delegate = self;
+}
+
+#pragma mark - Circle View Delegate
+
+- (void)circleView:(AYNCircleView *)circleView didRotateWithValue:(NSUInteger)value {
+    self.valueLabel.text = [NSString stringWithFormat:@"%ld", value];
 }
 
 @end

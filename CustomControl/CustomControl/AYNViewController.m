@@ -27,6 +27,7 @@
     contentView.backgroundColor = [UIColor redColor];
     
     self.circleView.contentView = contentView;
+    self.circleView.numberOfLabels = 12;
 }
 
 @end

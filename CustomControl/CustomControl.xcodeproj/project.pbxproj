@@ -14,6 +14,7 @@
 		BA2E7AEB1E6C4E69005CF26A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA2E7AEA1E6C4E69005CF26A /* Assets.xcassets */; };
 		BA2E7AEE1E6C4E69005CF26A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA2E7AEC1E6C4E69005CF26A /* LaunchScreen.storyboard */; };
 		BA2E7AFC1E6C64B8005CF26A /* AYNCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2E7AFB1E6C64B8005CF26A /* AYNCircleView.m */; };
+		BA2E7B031E6C7E46005CF26A /* UILabel+AYNHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2E7B021E6C7E46005CF26A /* UILabel+AYNHelpers.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,8 @@
 		BA2E7AEF1E6C4E69005CF26A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA2E7AFA1E6C64B8005CF26A /* AYNCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNCircleView.h; sourceTree = "<group>"; };
 		BA2E7AFB1E6C64B8005CF26A /* AYNCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNCircleView.m; sourceTree = "<group>"; };
+		BA2E7B011E6C7E46005CF26A /* UILabel+AYNHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+AYNHelpers.h"; sourceTree = "<group>"; };
+		BA2E7B021E6C7E46005CF26A /* UILabel+AYNHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+AYNHelpers.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				BA2E7AF51E6C4EE5005CF26A /* Application */,
+				BA2E7B001E6C7E2E005CF26A /* Categories */,
 				BA2E7AF71E6C4FAE005CF26A /* Storyboards */,
 				BA2E7AF61E6C4F99005CF26A /* Resources */,
 				BA2E7AF81E6C4FC0005CF26A /* ViewControllers */,
@@ -122,6 +126,15 @@
 				BA2E7AFB1E6C64B8005CF26A /* AYNCircleView.m */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		BA2E7B001E6C7E2E005CF26A /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				BA2E7B011E6C7E46005CF26A /* UILabel+AYNHelpers.h */,
+				BA2E7B021E6C7E46005CF26A /* UILabel+AYNHelpers.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA2E7B031E6C7E46005CF26A /* UILabel+AYNHelpers.m in Sources */,
 				BA2E7AE61E6C4E69005CF26A /* AYNViewController.m in Sources */,
 				BA2E7AE31E6C4E69005CF26A /* AYNAppDelegate.m in Sources */,
 				BA2E7AE01E6C4E69005CF26A /* main.m in Sources */,

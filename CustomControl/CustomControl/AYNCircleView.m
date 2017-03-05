@@ -169,6 +169,10 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     return angle + sign * times * 2 * M_PI;
 }
 
+- (CGFloat)normalizeAngle:(CGFloat)angle {
+    return lroundf(angle / self.angleStep) * self.angleStep;
+}
+
 #pragma mark - Layout
 
 - (void)layoutSubviews {
@@ -204,6 +208,20 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     
     self.previousAngle = self.currentAngle;
     self.startPoint = scrollView.contentOffset;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        self.currentAngle = [self normalizeAngle:self.previousAngle];
+        
+        [self rotateWithAngle:self.currentAngle];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    self.currentAngle = [self normalizeAngle:self.previousAngle];
+    
+    [self rotateWithAngle:self.currentAngle];
 }
 
 @end

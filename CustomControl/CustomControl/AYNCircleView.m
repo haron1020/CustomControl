@@ -10,6 +10,11 @@
 
 #import "UILabel+AYNHelpers.h"
 
+typedef NS_ENUM(NSUInteger, AYNCircleViewHalf) {
+    AYNCircleViewHalfLeft,
+    AYNCircleViewHalfRight,
+};
+
 static CGFloat const kAYNCircleViewScrollViewContentSizeLength = 1000000000;
 static CGFloat const kAYNCircleViewLabelOffset = 10;
 
@@ -18,7 +23,12 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 @property (assign, nonatomic) BOOL isInitialized;
 
 @property (assign, nonatomic) CGFloat circleRadius;
+@property (assign, nonatomic, readonly) CGFloat circleLength;
 @property (assign, nonatomic) CGFloat angleStep;
+
+@property (assign, nonatomic) CGFloat currentAngle;
+@property (assign, nonatomic) CGPoint startPoint;
+@property (assign, nonatomic) CGFloat previousAngle;
 
 @property (strong, nonatomic) UIView *circleView;
 @property (strong, nonatomic) UIScrollView *scrollView;
@@ -56,6 +66,9 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     
     _contentView = contentView;
     
+    _contentView.layer.cornerRadius = self.circleRadius;
+    _contentView.layer.masksToBounds = YES;
+    
     [self.circleView insertSubview:_contentView atIndex:0];
     
     [self setNeedsLayout];
@@ -67,6 +80,12 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     _numberOfLabels = numberOfLabels;
     
     [self addLabelsWithNumber:numberOfLabels];
+}
+
+- (void)setCircleRadius:(CGFloat)circleRadius {
+    _circleRadius = circleRadius;
+    
+    _circleLength = 2 * M_PI * circleRadius;
 }
 
 #pragma mark - Private
@@ -88,6 +107,10 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     [self addSubview:self.scrollView];
     
     self.numberOfLabels = 1;
+    
+    self.previousAngle = 0;
+    self.currentAngle = 0;
+    self.startPoint = self.scrollView.contentOffset;
 }
 
 - (void)addLabelsWithNumber:(NSInteger)numberOfLabels {
@@ -112,6 +135,40 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     [self setNeedsLayout];
 }
 
+- (void)rotateWithAngle:(CGFloat)angle {
+    [UIView animateWithDuration:0.1 animations:^{
+        self.circleView.transform = CGAffineTransformMakeRotation(angle);
+    }];
+}
+
+#pragma mark - Math
+
+- (CGFloat)angleWithOffset:(CGPoint)offset half:(AYNCircleViewHalf)half {
+    CGFloat delta = sqrt(pow(self.startPoint.x - offset.x, 2) + pow(self.startPoint.y - offset.y, 2)) / self.circleLength;
+    
+    CGFloat sign = offset.x > self.startPoint.x ? -1 : 1;
+    
+    BOOL isYDominant = fabs(offset.y - self.startPoint.y) > fabs(offset.x - self.startPoint.x);
+    if (isYDominant) {
+        sign = offset.y > self.startPoint.y ? -1 : 1;
+        sign *= half == AYNCircleViewHalfLeft ? -1 : 1;
+    }
+    
+    return sign * delta * 2 * M_PI;
+}
+
+- (AYNCircleViewHalf)halfWithPoint:(CGPoint)point {
+    return point.x > self.circleView.center.x ? AYNCircleViewHalfRight : AYNCircleViewHalfLeft;
+}
+
+- (CGFloat)floorAngle:(CGFloat)angle {
+    NSInteger times = floorf(fabs(angle) / (2 * M_PI));
+    
+    NSInteger sign = angle > 0 ? -1 : 1;
+    
+    return angle + sign * times * 2 * M_PI;
+}
+
 #pragma mark - Layout
 
 - (void)layoutSubviews {
@@ -133,6 +190,20 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
         
         [self addLabelsWithNumber:self.numberOfLabels];
     }
+}
+
+#pragma mark - Scroll View Delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGPoint point = [scrollView.panGestureRecognizer locationInView:self];
+    
+    CGFloat tickOffset = [self angleWithOffset:scrollView.contentOffset half:[self halfWithPoint:point]];
+    self.currentAngle = [self floorAngle:(self.previousAngle + tickOffset)];
+    
+    [self rotateWithAngle:self.currentAngle];
+    
+    self.previousAngle = self.currentAngle;
+    self.startPoint = scrollView.contentOffset;
 }
 
 @end

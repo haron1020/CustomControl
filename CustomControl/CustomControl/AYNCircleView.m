@@ -119,6 +119,15 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     self.previousAngle = 0;
     self.currentAngle = 0;
     self.startPoint = self.scrollView.contentOffset;
+    
+    __weak __typeof(self) weakSelf = self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceOrientationDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        
+        strongSelf.isInitialized = NO;
+        
+        [strongSelf setNeedsLayout];
+    }];
 }
 
 - (void)addLabelsWithNumber:(NSInteger)numberOfLabels {
@@ -238,6 +247,12 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     self.currentAngle = [self normalizeAngle:self.previousAngle];
     
     [self rotateWithAngle:self.currentAngle];
+}
+
+#pragma mark - Deallocation
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 @end

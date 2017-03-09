@@ -374,6 +374,7 @@
 				BA2E7AF41E6C4E69005CF26A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

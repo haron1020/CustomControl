@@ -27,8 +27,8 @@
     UIView *contentView = [UIView new];
     contentView.backgroundColor = [UIColor redColor];
     
-    self.circleView.contentView = contentView;
     self.circleView.numberOfLabels = 12;
+    self.circleView.backgroundView = contentView;
     self.circleView.delegate = self;
 }
 

@@ -15,6 +15,7 @@
 		BA2E7AEE1E6C4E69005CF26A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA2E7AEC1E6C4E69005CF26A /* LaunchScreen.storyboard */; };
 		BA2E7AFC1E6C64B8005CF26A /* AYNCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2E7AFB1E6C64B8005CF26A /* AYNCircleView.m */; };
 		BA2E7B031E6C7E46005CF26A /* UILabel+AYNHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2E7B021E6C7E46005CF26A /* UILabel+AYNHelpers.m */; };
+		BAC6D8441E71C43A000EB493 /* AYNCircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAC6D8431E71C43A000EB493 /* AYNCircleView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		BA2E7AFB1E6C64B8005CF26A /* AYNCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNCircleView.m; sourceTree = "<group>"; };
 		BA2E7B011E6C7E46005CF26A /* UILabel+AYNHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+AYNHelpers.h"; sourceTree = "<group>"; };
 		BA2E7B021E6C7E46005CF26A /* UILabel+AYNHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+AYNHelpers.m"; sourceTree = "<group>"; };
+		BAC6D8431E71C43A000EB493 /* AYNCircleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYNCircleView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 			children = (
 				BA2E7AFA1E6C64B8005CF26A /* AYNCircleView.h */,
 				BA2E7AFB1E6C64B8005CF26A /* AYNCircleView.m */,
+				BAC6D8431E71C43A000EB493 /* AYNCircleView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 				BA2E7AEE1E6C4E69005CF26A /* LaunchScreen.storyboard in Resources */,
 				BA2E7AEB1E6C4E69005CF26A /* Assets.xcassets in Resources */,
 				BA2E7AE91E6C4E69005CF26A /* Main.storyboard in Resources */,
+				BAC6D8441E71C43A000EB493 /* AYNCircleView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

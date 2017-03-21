@@ -10,6 +10,8 @@
 
 #import "UILabel+AYNHelpers.h"
 
+#import "math.h"
+
 typedef NS_ENUM(NSUInteger, AYNCircleViewHalf) {
     AYNCircleViewHalfLeft,
     AYNCircleViewHalfRight,
@@ -19,6 +21,8 @@ static CGFloat const kAYNCircleViewScrollViewContentSizeLength = 1000000000;
 static CGFloat const kAYNCircleViewLabelOffset = 10;
 
 @interface AYNCircleView () <UIScrollViewDelegate>
+
+@property (assign, nonatomic) NSUInteger numberOfLabels;
 
 @property (assign, nonatomic) BOOL isInitialized;
 
@@ -40,8 +44,6 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 @end
 
 @implementation AYNCircleView
-
-@dynamic value;
 
 #pragma mark - Initializers
 
@@ -67,65 +69,6 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 
 #pragma mark - Accessors
 
-- (void)setBackgroundView:(UIView *)backgroundView {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_backgroundView removeFromSuperview];
-        [_backgroundView removeConstraints:_backgroundView.constraints];
-        
-        _backgroundView = backgroundView;
-        _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [self.contentView insertSubview:_backgroundView atIndex:0];
-        
-        NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:_backgroundView
-                                                                   attribute:NSLayoutAttributeLeading
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.contentView
-                                                                   attribute:NSLayoutAttributeLeading
-                                                                  multiplier:1
-                                                                    constant:0];
-        
-        NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:_backgroundView
-                                                                    attribute:NSLayoutAttributeTrailing
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.contentView
-                                                                    attribute:NSLayoutAttributeTrailing
-                                                                   multiplier:1
-                                                                     constant:0];
-        
-        NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:_backgroundView
-                                                               attribute:NSLayoutAttributeTop
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self.contentView
-                                                               attribute:NSLayoutAttributeTop
-                                                              multiplier:1
-                                                                constant:0];
-        
-        NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:_backgroundView
-                                                                  attribute:NSLayoutAttributeBottom
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.contentView
-                                                                  attribute:NSLayoutAttributeBottom
-                                                                 multiplier:1
-                                                                   constant:0];
-        
-        [NSLayoutConstraint activateConstraints:@[leading, trailing, top, bottom]];
-        
-        [self setNeedsLayout];
-    });
-}
-
-
-- (void)setNumberOfLabels:(NSInteger)numberOfLabels {
-    NSParameterAssert(numberOfLabels > 0);
-    
-    _numberOfLabels = numberOfLabels;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self addLabelsWithNumber:_numberOfLabels];
-    });
-}
-
 - (void)setCircleRadius:(CGFloat)circleRadius {
     _circleRadius = circleRadius;
     
@@ -141,27 +84,37 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 #pragma mark - Private
 
 - (void)commonInit {
-    UIView *nibView =[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil].firstObject;
+    UIView *nibView = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil].firstObject;
     [self addSubview:nibView];
     
     self.scrollView.contentSize = CGSizeMake(kAYNCircleViewScrollViewContentSizeLength, kAYNCircleViewScrollViewContentSizeLength);
     self.scrollView.contentOffset = CGPointMake(kAYNCircleViewScrollViewContentSizeLength / 2.0, kAYNCircleViewScrollViewContentSizeLength / 2.0);
     
     self.scrollView.delegate = self;
-    
-    self.previousAngle = 0;
-    self.currentAngle = 0;
     self.startPoint = self.scrollView.contentOffset;
-    self.numberOfLabels = 1;
+    self.numberOfLabels = 12;
+    
+    [self addLabelsWithNumber:self.numberOfLabels];
+    
+    __weak __typeof(self) weakSelf = self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceOrientationDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        
+        strongSelf.isInitialized = NO;
+        
+        [strongSelf setNeedsLayout];
+    }];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)addLabelsWithNumber:(NSInteger)numberOfLabels {
     [self.contentView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj removeFromSuperview];
     }];
-    
-    [self.contentView addSubview:self.backgroundView];
-    
+        
     self.angleStep = 2 * M_PI / numberOfLabels;
     for (NSInteger i = 0; i < numberOfLabels; i++) {
         UILabel *rotatedLabel = [UILabel ayn_rotatedLabelWithText:[NSString stringWithFormat:@"%ld", i]
@@ -191,9 +144,15 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 
 #pragma mark - Math
 
-- (CGFloat)angleWithOffset:(CGPoint)offset half:(AYNCircleViewHalf)half {
-    CGFloat delta = sqrt(pow(self.startPoint.x - offset.x, 2) + pow(self.startPoint.y - offset.y, 2)) / self.circleLength;
-    
+- (CGFloat)deltaWithOffset:(CGPoint)offset {
+    return sqrt(pow(self.startPoint.x - offset.x, 2) + pow(self.startPoint.y - offset.y, 2));
+}
+
+- (CGFloat)deltaWithAngle:(CGFloat)angle {
+    return angle * self.circleLength / (2 * M_PI);
+}
+
+- (CGFloat)signWithOffset:(CGPoint)offset half:(AYNCircleViewHalf)half {
     CGFloat sign = offset.x > self.startPoint.x ? -1 : 1;
     
     BOOL isYDominant = fabs(offset.y - self.startPoint.y) > fabs(offset.x - self.startPoint.x);
@@ -201,6 +160,14 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
         sign = offset.y > self.startPoint.y ? -1 : 1;
         sign *= half == AYNCircleViewHalfLeft ? -1 : 1;
     }
+    
+    return sign;
+}
+
+- (CGFloat)angleWithOffset:(CGPoint)offset half:(AYNCircleViewHalf)half {
+    CGFloat delta = [self deltaWithOffset:offset] / self.circleLength;
+    
+    CGFloat sign = [self signWithOffset:offset half:half];
     
     return sign * delta * 2 * M_PI;
 }
@@ -219,6 +186,46 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 
 - (CGFloat)normalizeAngle:(CGFloat)angle {
     return lroundf(angle / self.angleStep) * self.angleStep;
+}
+
+- (CGPoint)endPointWithTargetPoint:(CGPoint)targetPoint scrollView:(UIScrollView *)scrollView {
+    CGPoint point = [scrollView.panGestureRecognizer locationInView:self];
+    
+    CGFloat tickOffset = [self angleWithOffset:targetPoint half:[self halfWithPoint:point]];
+
+    CGFloat rotationAngle = self.previousAngle + tickOffset;
+    CGFloat delta = [self deltaWithAngle:rotationAngle];
+    CGFloat normalizedRotationAngle = [self normalizeAngle:rotationAngle];
+    CGFloat normalizedDelta = [self deltaWithAngle:normalizedRotationAngle];
+
+    CGFloat angle = [self angleWithOffset:targetPoint startPoint:self.startPoint];
+    
+    CGFloat sign = normalizedRotationAngle <= 0 ? -1 : 1;
+    
+    CGPoint result = CGPointMake(targetPoint.x + sign * (normalizedDelta - delta) * cos(angle), targetPoint.y + sign * (normalizedDelta - delta) * sin(angle));
+
+    return result;
+}
+
+- (CGFloat)angleWithOffset:(CGPoint)offset startPoint:(CGPoint)startPoint {
+    CGFloat y = (offset.y - self.startPoint.y);
+    CGFloat x = (offset.x - self.startPoint.x);
+    
+    if (!isnan(x) && x != 0) {
+        CGFloat value = atan(y / x);
+        
+        if (x <= 0 && y >=0) {
+            return value + M_PI;
+        }
+        
+        if (x <= 0 && y <= 0) {
+            return value - M_PI;
+        }
+        
+        return value;
+    }
+    
+    return 0;
 }
 
 #pragma mark - Layout
@@ -263,6 +270,11 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     
     self.previousAngle = self.currentAngle;
     self.startPoint = scrollView.contentOffset;
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    
+    *targetContentOffset = [self endPointWithTargetPoint:*targetContentOffset scrollView:scrollView];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {

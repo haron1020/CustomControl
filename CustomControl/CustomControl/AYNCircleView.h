@@ -15,6 +15,7 @@
 @property (nonatomic, readonly) NSInteger value;
 
 @property (assign, nonatomic) NSUInteger numberOfLabels;
+@property (strong, nonatomic) UIView *backgroundView;
 
 @property (strong, nonatomic) UIFont *labelFont;
 @property (strong, nonatomic) UIColor *labelTextColor;

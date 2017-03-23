@@ -87,6 +87,18 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     }
 }
 
+- (void)setBackgroundView:(UIView *)backgroundView {
+    [_backgroundView removeFromSuperview];
+    
+    _backgroundView = backgroundView;
+    
+    [_contentView insertSubview:_backgroundView atIndex:0];
+    
+    if (_isInitialized) {
+        [self layoutBackgroundView];
+    }
+}
+
 #pragma mark - Private
 
 - (void)commonInit {
@@ -116,7 +128,9 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 - (void)addLabelsWithNumber:(NSInteger)numberOfLabels {
     if (numberOfLabels > 0) {
         [self.contentView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [obj removeFromSuperview];
+            if ([obj isKindOfClass:[UILabel class]]) {
+                [obj removeFromSuperview];
+            }
         }];
         
         self.angleStep = 2 * M_PI / numberOfLabels;
@@ -250,10 +264,18 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
         self.circleView.layer.cornerRadius = self.circleRadius;
         self.circleView.layer.masksToBounds = YES;
         
+        [self layoutBackgroundView];
+        
         [self addLabelsWithNumber:self.numberOfLabels];
         
         [self setNeedsUpdateConstraints];
     }
+}
+
+- (void)layoutBackgroundView {
+    self.backgroundView.frame = self.contentView.bounds;
+    self.backgroundView.layer.masksToBounds = YES;
+    self.backgroundView.layer.cornerRadius = self.circleRadius;
 }
 
 - (void)updateConstraints {

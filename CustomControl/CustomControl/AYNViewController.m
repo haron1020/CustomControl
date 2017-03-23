@@ -24,6 +24,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIView *redView = [UIView new];
+    redView.backgroundColor = [UIColor redColor];
+    
+    self.circleView.backgroundView = redView;
     self.circleView.numberOfLabels = 12;
     
     self.circleView.delegate = self;

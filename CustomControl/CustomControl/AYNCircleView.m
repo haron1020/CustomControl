@@ -22,8 +22,6 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 
 @interface AYNCircleView () <UIScrollViewDelegate>
 
-@property (assign, nonatomic) NSUInteger numberOfLabels;
-
 @property (assign, nonatomic) BOOL isInitialized;
 
 @property (assign, nonatomic) CGFloat circleRadius;
@@ -81,6 +79,14 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     return labs(value) % self.numberOfLabels;
 }
 
+- (void)setNumberOfLabels:(NSUInteger)numberOfLabels {
+    _numberOfLabels = numberOfLabels;
+    
+    if (_isInitialized) {
+        [self addLabelsWithNumber:_numberOfLabels];
+    }
+}
+
 #pragma mark - Private
 
 - (void)commonInit {
@@ -92,9 +98,6 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     
     self.scrollView.delegate = self;
     self.startPoint = self.scrollView.contentOffset;
-    self.numberOfLabels = 12;
-    
-    [self addLabelsWithNumber:self.numberOfLabels];
     
     __weak __typeof(self) weakSelf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceOrientationDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
@@ -111,20 +114,22 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 }
 
 - (void)addLabelsWithNumber:(NSInteger)numberOfLabels {
-    [self.contentView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj removeFromSuperview];
-    }];
+    if (numberOfLabels > 0) {
+        [self.contentView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [obj removeFromSuperview];
+        }];
         
-    self.angleStep = 2 * M_PI / numberOfLabels;
-    for (NSInteger i = 0; i < numberOfLabels; i++) {
-        UILabel *rotatedLabel = [UILabel ayn_rotatedLabelWithText:[NSString stringWithFormat:@"%ld", i]
-                                                                        angle:self.angleStep * i
-                                                                 circleRadius:self.circleRadius
-                                                                       offset:kAYNCircleViewLabelOffset
-                                                                         font:self.labelFont
-                                                                    textColor:self.labelTextColor];
-        
-        [self.contentView addSubview:rotatedLabel];
+        self.angleStep = 2 * M_PI / numberOfLabels;
+        for (NSInteger i = 0; i < numberOfLabels; i++) {
+            UILabel *rotatedLabel = [UILabel ayn_rotatedLabelWithText:[NSString stringWithFormat:@"%ld", i]
+                                                                angle:self.angleStep * i
+                                                         circleRadius:self.circleRadius
+                                                               offset:kAYNCircleViewLabelOffset
+                                                                 font:self.labelFont
+                                                            textColor:self.labelTextColor];
+            
+            [self.contentView addSubview:rotatedLabel];
+        }
     }
 }
 

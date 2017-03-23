@@ -24,6 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.circleView.numberOfLabels = 12;
+    
     self.circleView.delegate = self;
 }
 

@@ -12,10 +12,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AYNCircleView">
             <connections>
-                <outlet property="circleView" destination="kNM-B2-KRX" id="tDu-Ab-c0l"/>
                 <outlet property="contentView" destination="KW2-vD-9m7" id="95h-Gj-n7A"/>
-                <outlet property="contentViewDimension" destination="wEY-VR-0jK" id="iyp-As-Ycj"/>
-                <outlet property="contentViewOffset" destination="NLb-0e-oJX" id="WPa-bi-92d"/>
+                <outlet property="contentViewDimension" destination="YHv-Vn-n41" id="MS5-5z-O6K"/>
+                <outlet property="contentViewOffset" destination="GrF-Qi-egY" id="Qde-mo-cXj"/>
                 <outlet property="scrollView" destination="q38-0v-0Ny" id="IoO-3o-hqF"/>
             </connections>
         </placeholder>
@@ -24,22 +23,12 @@
             <rect key="frame" x="0.0" y="0.0" width="526" height="281"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kNM-B2-KRX" userLabel="circleView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KW2-vD-9m7" userLabel="contentView">
                     <rect key="frame" x="135" y="25" width="256" height="256"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KW2-vD-9m7" userLabel="contentView">
-                            <rect key="frame" x="0.0" y="0.0" width="256" height="256"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="KW2-vD-9m7" firstAttribute="top" secondItem="kNM-B2-KRX" secondAttribute="top" id="6qk-wG-SNr"/>
-                        <constraint firstAttribute="width" secondItem="kNM-B2-KRX" secondAttribute="height" multiplier="1:1" id="Baf-OL-L77"/>
-                        <constraint firstAttribute="bottom" secondItem="KW2-vD-9m7" secondAttribute="bottom" id="JgP-ZU-16v"/>
-                        <constraint firstItem="KW2-vD-9m7" firstAttribute="leading" secondItem="kNM-B2-KRX" secondAttribute="leading" id="LtO-IQ-1Tf"/>
-                        <constraint firstAttribute="trailing" secondItem="KW2-vD-9m7" secondAttribute="trailing" id="Lul-QE-buL"/>
-                        <constraint firstAttribute="height" constant="256" id="wEY-VR-0jK"/>
+                        <constraint firstAttribute="height" constant="256" id="YHv-Vn-n41"/>
+                        <constraint firstAttribute="width" secondItem="KW2-vD-9m7" secondAttribute="height" multiplier="1:1" id="zQU-qi-cRB"/>
                     </constraints>
                 </view>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q38-0v-0Ny">
@@ -48,15 +37,15 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="kNM-B2-KRX" firstAttribute="bottom" secondItem="y65-H7-V14" secondAttribute="bottom" id="NLb-0e-oJX"/>
-                <constraint firstItem="kNM-B2-KRX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="y65-H7-V14" secondAttribute="leading" id="PDw-32-TCA"/>
-                <constraint firstItem="q38-0v-0Ny" firstAttribute="leading" secondItem="kNM-B2-KRX" secondAttribute="leading" id="aRC-N9-XaC"/>
-                <constraint firstItem="kNM-B2-KRX" firstAttribute="centerX" secondItem="y65-H7-V14" secondAttribute="centerX" id="dDx-WJ-DSm"/>
-                <constraint firstItem="kNM-B2-KRX" firstAttribute="top" relation="greaterThanOrEqual" secondItem="y65-H7-V14" secondAttribute="top" id="l4H-gm-Pdh"/>
-                <constraint firstItem="q38-0v-0Ny" firstAttribute="top" secondItem="kNM-B2-KRX" secondAttribute="top" id="mGd-wF-hk2"/>
-                <constraint firstItem="q38-0v-0Ny" firstAttribute="trailing" secondItem="kNM-B2-KRX" secondAttribute="trailing" id="rhN-P8-ZcU"/>
-                <constraint firstItem="q38-0v-0Ny" firstAttribute="bottom" secondItem="kNM-B2-KRX" secondAttribute="bottom" id="tAo-l0-bNA"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kNM-B2-KRX" secondAttribute="trailing" id="vfd-3w-LMb"/>
+                <constraint firstItem="KW2-vD-9m7" firstAttribute="top" relation="greaterThanOrEqual" secondItem="y65-H7-V14" secondAttribute="top" id="AbB-9V-q8q"/>
+                <constraint firstItem="KW2-vD-9m7" firstAttribute="bottom" secondItem="y65-H7-V14" secondAttribute="bottom" id="GrF-Qi-egY"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KW2-vD-9m7" secondAttribute="trailing" id="IcW-dZ-T9U"/>
+                <constraint firstItem="q38-0v-0Ny" firstAttribute="leading" secondItem="KW2-vD-9m7" secondAttribute="leading" id="Tcd-cu-QHs"/>
+                <constraint firstItem="KW2-vD-9m7" firstAttribute="centerX" secondItem="y65-H7-V14" secondAttribute="centerX" id="aIo-hh-bKR"/>
+                <constraint firstItem="KW2-vD-9m7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="y65-H7-V14" secondAttribute="leading" id="ki7-p4-HjZ"/>
+                <constraint firstItem="q38-0v-0Ny" firstAttribute="top" secondItem="KW2-vD-9m7" secondAttribute="top" id="mF9-7A-TWu"/>
+                <constraint firstItem="q38-0v-0Ny" firstAttribute="trailing" secondItem="KW2-vD-9m7" secondAttribute="trailing" id="nnV-iv-25d"/>
+                <constraint firstItem="q38-0v-0Ny" firstAttribute="bottom" secondItem="KW2-vD-9m7" secondAttribute="bottom" id="rzB-QE-EOo"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="187" y="-232.5"/>

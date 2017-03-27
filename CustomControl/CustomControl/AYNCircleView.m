@@ -32,7 +32,6 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 @property (assign, nonatomic) CGPoint startPoint;
 @property (assign, nonatomic) CGFloat previousAngle;
 
-@property (weak, nonatomic) IBOutlet UIView *circleView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
@@ -153,7 +152,7 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     }
     
     [UIView animateWithDuration:0.1 animations:^{
-        self.circleView.transform = CGAffineTransformMakeRotation(angle);
+        self.contentView.transform = CGAffineTransformMakeRotation(angle);
     } completion:^(BOOL finished) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(circleView:didRotateWithValue:)]) {
             [self.delegate circleView:self didRotateWithValue:self.value];
@@ -192,7 +191,7 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 }
 
 - (AYNCircleViewHalf)halfWithPoint:(CGPoint)point {
-    return point.x > self.circleView.center.x ? AYNCircleViewHalfRight : AYNCircleViewHalfLeft;
+    return point.x > self.contentView.center.x ? AYNCircleViewHalfRight : AYNCircleViewHalfLeft;
 }
 
 - (CGFloat)floorAngle:(CGFloat)angle {
@@ -261,9 +260,6 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
         self.contentView.layer.cornerRadius = self.circleRadius;
         self.contentView.layer.masksToBounds = YES;
         
-        self.circleView.layer.cornerRadius = self.circleRadius;
-        self.circleView.layer.masksToBounds = YES;
-        
         [self layoutBackgroundView];
         
         [self addLabelsWithNumber:self.numberOfLabels];
@@ -273,7 +269,7 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 }
 
 - (void)layoutBackgroundView {
-    self.backgroundView.frame = self.contentView.bounds;
+    self.backgroundView.frame = CGRectMake(0, 0, self.circleRadius * 2, self.circleRadius * 2);
     self.backgroundView.layer.masksToBounds = YES;
     self.backgroundView.layer.cornerRadius = self.circleRadius;
 }

@@ -216,31 +216,21 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
     CGFloat normalizedRotationAngle = [self normalizeAngle:rotationAngle];
     CGFloat normalizedDelta = [self deltaWithAngle:normalizedRotationAngle];
 
-    CGFloat angle = [self angleWithOffset:targetPoint startPoint:self.startPoint];
-    
+    CGFloat inclination = [self inclinationWithOffset:targetPoint startPoint:self.startPoint];
+        
     CGFloat sign = normalizedRotationAngle <= 0 ? -1 : 1;
     
-    CGPoint result = CGPointMake(targetPoint.x + sign * (normalizedDelta - delta) * cos(angle), targetPoint.y + sign * (normalizedDelta - delta) * sin(angle));
+    CGPoint result = CGPointMake(targetPoint.x + sign * (normalizedDelta - delta) * cos(inclination), targetPoint.y + sign * (normalizedDelta - delta) * sin(inclination));
 
     return result;
 }
 
-- (CGFloat)angleWithOffset:(CGPoint)offset startPoint:(CGPoint)startPoint {
+- (CGFloat)inclinationWithOffset:(CGPoint)offset startPoint:(CGPoint)startPoint {
     CGFloat y = (offset.y - self.startPoint.y);
     CGFloat x = (offset.x - self.startPoint.x);
     
     if (!isnan(x) && x != 0) {
-        CGFloat value = atan(y / x);
-        
-        if (x <= 0 && y >=0) {
-            return value + M_PI;
-        }
-        
-        if (x <= 0 && y <= 0) {
-            return value - M_PI;
-        }
-        
-        return value;
+        return atan2(y, x);
     }
     
     return 0;
@@ -296,17 +286,17 @@ static CGFloat const kAYNCircleViewLabelOffset = 10;
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    
+
     *targetContentOffset = [self endPointWithTargetPoint:*targetContentOffset scrollView:scrollView];
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!decelerate) {
-        self.currentAngle = [self normalizeAngle:self.previousAngle];
-        
-        [self rotateWithAngle:self.currentAngle];
-    }
-}
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+//    if (!decelerate) {
+//        self.currentAngle = [self normalizeAngle:self.previousAngle];
+//        
+//        [self rotateWithAngle:self.currentAngle];
+//    }
+//}
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     self.currentAngle = [self normalizeAngle:self.previousAngle];
